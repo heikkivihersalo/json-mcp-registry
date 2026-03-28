@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "context-mode": {
+      "command": "context-mode"
+    },
+    "chrome-devtools": {
+      "command": "chrome-devtools-mcp",
+      "args": [
+        "--browser-url=${browser_url}",
+        "--no-usage-statistics",
+        "--no-performance-crux"
+      ]
+    }
+  }
+}
