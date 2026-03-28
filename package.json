@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Internal MCP Server Registry",
   "scripts": {
-    "test": "node --test"
+    "dev": "npx http-server -p 8080 .",
+    "test": "node --test",
+    "test:client": "node scripts/test-client.js",
+    "test:hosted": "node scripts/test-hosted.js",
+    "validate": "node tests/validate.js"
   },
   "devDependencies": {
     "ajv": "^8.0.0",

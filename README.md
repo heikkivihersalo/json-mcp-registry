@@ -40,20 +40,34 @@ The GitHub action (`.github/workflows/validate.yml`) will automatically run on P
 To test locally:
 ```bash
 npm install
+
+# 1. Run all tests (schema + secret detection)
 npm test
+
+# 2. Simulate how a client converts the registry to mcp.json
+npm run test:client
+
+# 3. Test a hosted registry URL (once deployed)
+npm run test:hosted -- https://raw.githubusercontent.com/<user>/<repo>/main/v0/servers
 ```
-This will run the JSON schema validation against `v0/servers`.
 
 ## Structure of `v0/servers`
 ```json
 {
-  "name": "Registry Name",
+  "name": "Internal MCP Server Registry",
+  "version": "1.0.0",
   "mcpServers": {
     "server-id": {
-      "type": "stdio", // or "sse"
-      "command": "npx",
-      "args": ["..."],
-      "url": "https://..." // Use when type is "sse"
+      "name": "namespace/server-name",
+      "description": "Short description...",
+      "version": "1.0.0",
+      "packages": [
+        {
+          "registryType": "npm",
+          "identifier": "package-name",
+          "transport": { "type": "stdio" }
+        }
+      ]
     }
   }
 }
