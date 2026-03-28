@@ -54,21 +54,26 @@ npm run test:hosted -- https://raw.githubusercontent.com/<user>/<repo>/main/v0/s
 ## Structure of `v0/servers`
 ```json
 {
-  "name": "Internal MCP Server Registry",
-  "version": "1.0.0",
-  "mcpServers": {
-    "server-id": {
-      "name": "namespace/server-name",
-      "description": "Short description...",
-      "version": "1.0.0",
-      "packages": [
-        {
-          "registryType": "npm",
-          "identifier": "package-name",
-          "transport": { "type": "stdio" }
-        }
-      ]
+  "servers": [
+    {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "name": "io.github.namespace/server-name",
+        "description": "Clear human-readable explanation...",
+        "version": "1.0.0",
+        "packages": [
+          {
+            "registryType": "npm",
+            "identifier": "package-name",
+            "transport": { "type": "stdio" }
+          }
+        ]
+      },
     }
+  ],
+  "metadata": {
+    "nextCursor": null,
+    "count": 1
   }
 }
 ```
