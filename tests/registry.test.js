@@ -28,26 +28,29 @@ test('Current registry validation', (t) => {
 
 test('Validation fails with env property', (t) => {
     const data = {
-        mcpServers: {
-            "leaker": {
-                "name": "org/leaker",
-                "description": "Leaky server",
-                "version": "1.0.0",
-                "packages": [
-                    {
-                        "registryType": "npm",
-                        "identifier": "leaker-pkg",
-                        "transport": { "type": "stdio" },
-                        "environmentVariables": [
-                            {
-                                "name": "BAD_KEY",
-                                "value": "ghp_1234567890abcdef1234567890abcdef1234"
-                            }
-                        ]
-                    }
-                ]
+        servers: [
+            {
+                server: {
+                    "name": "org/leaker",
+                    "description": "Leaky server",
+                    "version": "1.0.0",
+                    "packages": [
+                        {
+                            "registryType": "npm",
+                            "identifier": "leaker-pkg",
+                            "transport": { "type": "stdio" },
+                            "environmentVariables": [
+                                {
+                                    "name": "BAD_KEY",
+                                    "value": "ghp_1234567890abcdef1234567890abcdef1234"
+                                }
+                            ]
+                        }
+                    ]
+                }
             }
-        }
+        ],
+        metadata: { count: 1 }
     };
     const result = validateRegistry(data, schema);
     assert.strictEqual(result.valid, false, 'Should fail because of secret leak in env');
@@ -56,23 +59,26 @@ test('Validation fails with env property', (t) => {
 
 test('Validation fails with secret in args', (t) => {
     const data = {
-        mcpServers: {
-            "leaker": {
-                "name": "org/leaker",
-                "description": "Leaky server",
-                "version": "1.0.0",
-                "packages": [
-                    {
-                        "registryType": "npm",
-                        "identifier": "leaker-pkg",
-                        "transport": { "type": "stdio" },
-                        "packageArguments": [
-                            { "type": "positional", "value": "sk-1234567890abcdef1234567890abcdef" }
-                        ]
-                    }
-                ]
+        servers: [
+            {
+                server: {
+                    "name": "org/leaker",
+                    "description": "Leaky server",
+                    "version": "1.0.0",
+                    "packages": [
+                        {
+                            "registryType": "npm",
+                            "identifier": "leaker-pkg",
+                            "transport": { "type": "stdio" },
+                            "packageArguments": [
+                                { "type": "positional", "value": "sk-1234567890abcdef1234567890abcdef" }
+                            ]
+                        }
+                    ]
+                }
             }
-        }
+        ],
+        metadata: { count: 1 }
     };
     const result = validateRegistry(data, schema);
     assert.strictEqual(result.valid, false, 'Should fail with secret in args');
@@ -80,19 +86,22 @@ test('Validation fails with secret in args', (t) => {
 
 test('Validation fails with secret in URL', (t) => {
     const data = {
-        mcpServers: {
-            "leaker": {
-                "name": "org/leaker",
-                "description": "Leaky server",
-                "version": "1.0.0",
-                "remotes": [
-                    {
-                        "type": "sse",
-                        "url": "https://mcp.server.com/sse?key=ghp_1234567890abcdef1234567890abcdef1234"
-                    }
-                ]
+        servers: [
+            {
+                server: {
+                    "name": "org/leaker",
+                    "description": "Leaky server",
+                    "version": "1.0.0",
+                    "remotes": [
+                        {
+                            "type": "sse",
+                            "url": "https://mcp.server.com/sse?key=ghp_1234567890abcdef1234567890abcdef1234"
+                        }
+                    ]
+                }
             }
-        }
+        ],
+        metadata: { count: 1 }
     };
     const result = validateRegistry(data, schema);
     assert.strictEqual(result.valid, false, 'Should fail with secret in URL');

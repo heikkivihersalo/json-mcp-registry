@@ -51,6 +51,22 @@ npm run test:client
 npm run test:hosted -- https://raw.githubusercontent.com/<user>/<repo>/main/v0/servers
 ```
 
+## Testing with your IDE (Local Development)
+You can test the registry in VS Code or other MCP-capable IDEs before deploying it:
+
+1. **Host locally**:
+   ```bash
+   npm run dev
+   ```
+   *This starts a server at `http://localhost:8080`.*
+
+2. **Configure your IDE**: 
+   - Open VS Code Settings (`Cmd+,`).
+   - Search for **"GitHub Copilot MCP Registry URL"**.
+   - Set the URL to `http://localhost:8080`.
+   
+3. **Confirm**: The IDE will now fetch `http://localhost:8080/v0/servers`. Your whitelisted servers should appear in the Copilot Chat / Tools menu.
+
 ## Structure of `v0/servers`
 ```json
 {

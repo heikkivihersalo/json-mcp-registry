@@ -34,7 +34,10 @@ function validateRegistry(data, schema) {
     }
 
     // Custom secret detection
-    for (const [serverName, server] of Object.entries(data.mcpServers || {})) {
+    for (const serverItem of (data.servers || [])) {
+        const server = serverItem.server;
+        const serverName = server.name;
+        
         // Check top-level description/version for secrets (unlikely but safe)
         if (isSecret(server.description)) errors.push(`Potential secret leak in description of "${serverName}".`);
         if (isSecret(server.version)) errors.push(`Potential secret leak in version of "${serverName}".`);

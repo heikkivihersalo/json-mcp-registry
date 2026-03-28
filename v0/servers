@@ -1,49 +1,91 @@
 {
-  "name": "Internal MCP Server Registry",
-  "description": "Whitelist of approved Model Context Protocol (MCP) servers.",
-  "version": "1.0.0",
-  "mcpServers": {
-    "mksglu/context-mode": {
-      "name": "mksglu/context-mode",
-      "description": "Virtualization layer optimizing context window usage via sandboxed tool outputs.",
-      "version": "1.0.0",
-      "packages": [
-        {
-          "registryType": "npm",
-          "identifier": "context-mode",
-          "transport": {
-            "type": "stdio"
-          }
-        }
-      ]
-    },
-    "ChromeDevTools/chrome-devtools-mcp": {
-      "name": "ChromeDevTools/chrome-devtools-mcp",
-      "description": "Chrome DevTools MCP server for interacting with Chrome via the DevTools Protocol.",
-      "version": "1.0.0",
-      "packages": [
-        {
-          "registryType": "npm",
-          "identifier": "chrome-devtools-mcp",
-          "packageArguments": [
-            {
-              "type": "positional",
-              "value": "--browser-url=${browser_url}"
-            },
-            {
-              "type": "positional",
-              "value": "--no-usage-statistics"
-            },
-            {
-              "type": "positional",
-              "value": "--no-performance-crux"
+  "servers": [
+    {
+      "server": {
+        "name": "mksglu/context-mode",
+        "description": "Virtualization layer optimizing context window usage via sandboxed tool outputs.",
+        "version": "1.0.0",
+        "packages": [
+          {
+            "registryType": "npm",
+            "identifier": "context-mode",
+            "transport": {
+              "type": "stdio"
             }
-          ],
-          "transport": {
-            "type": "stdio"
           }
+        ]
+      },
+      "_meta": {
+        "io.modelcontextprotocol.registry/official": {
+          "status": "active",
+          "isLatest": true,
+          "publishedAt": "2026-03-28T09:13:34Z",
+          "updatedAt": "2026-03-28T09:13:34Z"
         }
-      ]
+      }
+    },
+    {
+      "server": {
+        "name": "ChromeDevTools/chrome-devtools-mcp",
+        "description": "Chrome DevTools MCP server for interacting with Chrome via the DevTools Protocol.",
+        "version": "1.0.0",
+        "packages": [
+          {
+            "registryType": "npm",
+            "identifier": "chrome-devtools-mcp",
+            "packageArguments": [
+              {
+                "type": "positional",
+                "value": "--browser-url=${browser_url}"
+              },
+              {
+                "type": "positional",
+                "value": "--no-usage-statistics"
+              },
+              {
+                "type": "positional",
+                "value": "--no-performance-crux"
+              }
+            ],
+            "transport": {
+              "type": "stdio"
+            }
+          }
+        ]
+      },
+      "_meta": {
+        "io.modelcontextprotocol.registry/official": {
+          "status": "active",
+          "isLatest": true,
+          "publishedAt": "2026-03-28T09:13:34Z",
+          "updatedAt": "2026-03-28T09:13:34Z"
+        }
+      }
+    },
+    {
+      "server": {
+        "name": "figma/mcp-server",
+        "description": "The official Figma MCP server, enabling AI agents to interact with Figma designs.",
+        "version": "1.0.0",
+        "remotes": [
+          {
+            "type": "http",
+            "url": "https://mcp.figma.com/mcp"
+          }
+        ]
+      },
+      "_meta": {
+        "io.modelcontextprotocol.registry/official": {
+          "status": "active",
+          "isLatest": true,
+          "publishedAt": "2026-03-28T09:55:00Z",
+          "updatedAt": "2026-03-28T09:55:00Z"
+        }
+      }
     }
+  ],
+  "metadata": {
+    "count": 3,
+    "nextCursor": null
   }
 }

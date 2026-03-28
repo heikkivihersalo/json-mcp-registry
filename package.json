@@ -7,6 +7,7 @@
     "test": "node --test",
     "test:client": "node scripts/test-client.js",
     "test:hosted": "node scripts/test-hosted.js",
+    "test:servers": "node scripts/test-servers.js",
     "validate": "node tests/validate.js"
   },
   "devDependencies": {
