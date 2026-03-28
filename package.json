@@ -1,17 +1,21 @@
 {
-  "name": "mcp-registry",
-  "version": "1.0.0",
-  "description": "Internal MCP Server Registry",
-  "scripts": {
-    "dev": "npx http-server -p 8080 .",
-    "test": "node --test",
-    "test:client": "node scripts/test-client.js",
-    "test:hosted": "node scripts/test-hosted.js",
-    "test:servers": "node scripts/test-servers.js",
-    "validate": "node tests/validate.js"
-  },
-  "devDependencies": {
-    "ajv": "^8.0.0",
-    "ajv-formats": "^2.1.1"
-  }
+	"name": "mcp-registry",
+	"version": "1.0.0",
+	"description": "Internal MCP Server Registry",
+	"scripts": {
+		"dev": "npx http-server -p 8080 .",
+		"test": "node --test",
+		"test:client": "node scripts/check-client.js",
+		"test:hosted": "node scripts/check-hosted.js",
+		"test:servers": "node scripts/check-servers.js",
+		"validate": "node tests/validate.js",
+		"format": "biome format --write .",
+		"lint": "biome lint .",
+		"check": "biome check --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.9",
+		"ajv": "^8.0.0",
+		"ajv-formats": "^2.1.1"
+	}
 }
