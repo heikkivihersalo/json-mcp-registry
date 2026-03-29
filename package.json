@@ -5,6 +5,8 @@
 	"scripts": {
 		"dev": "npx http-server -p 8080 .",
 		"test": "node --test",
+		"test:registry": "node --test tests/registry.test.js",
+		"test:secrets": "node --test tests/secrets.test.js",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"check": "biome check --write ."

@@ -17,4 +17,7 @@ jobs:
           node-version: '24'
           cache: 'npm'
       - run: npm install
-      - run: npm test
+      - name: Validate Registry
+        run: npm run test:registry
+      - name: Check for Secrets
+        run: npm run test:secrets
