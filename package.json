@@ -5,10 +5,6 @@
 	"scripts": {
 		"dev": "npx http-server -p 8080 .",
 		"test": "node --test",
-		"test:client": "node scripts/check-client.js",
-		"test:hosted": "node scripts/check-hosted.js",
-		"test:servers": "node scripts/check-servers.js",
-		"validate": "node tests/validate.js",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"check": "biome check --write ."
