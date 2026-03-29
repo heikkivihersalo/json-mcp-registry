@@ -34,15 +34,31 @@ Once your file is live at that path, you just wire it up in your organization's 
 5. Set the enforcement mode to "Registry only".
 
 ## Validation
-This repository includes a validation step to ensure your `v0.1/servers` file is always properly formatted.
+This repository includes validation steps to ensure your `v0.1/servers` file is always properly formatted and up-to-date.
 The GitHub action (`.github/workflows/validate.yml`) will automatically run on Pull Requests and Pushes to the `main` branch.
+
+The validation includes:
+1. **Schema Validation**: Ensures the registry matches the official MCP specification.
+2. **Secret Detection**: Scans for potentially leaked sensitive information (API keys, URIs, etc.).
+3. **Version Synchronization**: Verifies that all NPM-based servers are using their latest available version.
 
 To test locally:
 ```bash
 npm install
 
-# Run all tests (schema + secret detection)
+# Run all tests (schema + secret detection + version check)
 npm test
+
+# Run only version synchronization check
+npm run test:versions
+```
+
+## Automated Updates
+To keep your registry current with the latest releases from the community, you can automatically update all NPM-based servers to their latest version:
+
+```bash
+# Checks NPM registry and updates version strings in v0.1/servers
+npm run update:packages
 ```
 
 ## Structure of `v0.1/servers`
