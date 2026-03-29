@@ -1,0 +1,40 @@
+name: Scheduled MCP Package Updates
+
+on:
+  schedule:
+    - cron: '0 8 * * 1' # Runs at 08:00 UTC every Monday
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  update-packages:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          
+      - run: npm install
+      
+      - name: Update MCP Packages
+        run: npm run update:packages
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(deps): update mcp server packages to latest versions"
+          title: "Update MCP Server Packages"
+          body: |
+            Automated package update testing the NPM registry to see if there are newer versions available for our MCP servers.
+            
+            This pull request updates the versions in `v0.1/servers` to match the latest available releases.
+          branch: auto-update-mcp-packages
+          delete-branch: true
+          labels: "dependencies, automated pr"
