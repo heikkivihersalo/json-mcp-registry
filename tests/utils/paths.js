@@ -1,7 +1,12 @@
+/**
+ * External dependencies
+ */
 const fs = require("node:fs");
 const path = require("node:path");
 
-// Configuration constants
+/**
+ * Configuration constants
+ */
 const ROOT_DIR = path.resolve(__dirname, "../../");
 const SERVERS_FILE = "servers";
 

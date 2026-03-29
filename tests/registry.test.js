@@ -1,6 +1,13 @@
+/**
+ * External dependencies
+ */
 const { describe, it } = require("node:test");
 const assert = require("node:assert");
 const fs = require("node:fs");
+
+/**
+ * Internal dependencies
+ */
 const paths = require("./utils/paths");
 const { validateRegistry, isSecret } = require("./utils/validate");
 
