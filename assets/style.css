@@ -361,6 +361,87 @@ a.card-namespace:hover {
 	}
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
+.in-page-nav {
+	display: flex;
+	gap: 24px;
+	margin-bottom: 40px;
+	border-bottom: 1px solid var(--card-border);
+	padding-bottom: 16px;
+}
+
+.nav-link {
+	color: var(--text-muted);
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 1.05rem;
+	transition: color 0.2s ease;
+	position: relative;
+}
+
+.nav-link:hover {
+	color: var(--text-main);
+}
+
+.nav-link::after {
+	content: '';
+	position: absolute;
+	bottom: -17px;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background: var(--primary);
+	transform: scaleX(0);
+	transition: transform 0.2s ease;
+	transform-origin: left;
+}
+
+.nav-link:hover::after {
+	transform: scaleX(1);
+}
+
+.example-section {
+	margin-top: 60px;
+	padding-top: 20px;
+}
+
+.example-card {
+	padding: 32px;
+}
+
+.example-card .card-desc {
+	margin-top: 12px;
+	margin-bottom: 24px;
+	flex-grow: 0;
+}
+
+.code-container pre {
+	background: #010409;
+	border: 1px solid var(--card-border);
+	padding: 20px;
+	border-radius: var(--radius);
+	overflow-x: auto;
+	color: #a5d6ff;
+	font-family: "JetBrains Mono", monospace;
+	font-size: 0.85rem;
+	line-height: 1.5;
+}
+
+.code-container code {
+	white-space: pre;
+}
+
+.card-desc code {
+	background: rgba(255, 255, 255, 0.1);
+	padding: 2px 6px;
+	border-radius: 4px;
+	font-family: "JetBrains Mono", monospace;
+	font-size: 0.85em;
+}
+
 @media (max-width: 768px) {
 	header {
 		flex-direction: column;
@@ -369,5 +450,8 @@ a.card-namespace:hover {
 	.stats-card {
 		width: 100%;
 		justify-content: space-between;
+	}
+	.example-card {
+		padding: 24px;
 	}
 }

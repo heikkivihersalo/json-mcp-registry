@@ -21,6 +21,9 @@ function getRepositoryInfo(name) {
 }
 
 async function init() {
+	// Attempt to load the example configuration
+	loadExampleConfig();
+
 	try {
 		const response = await fetch("./v0.1/servers");
 		if (!response.ok) throw new Error("Failed to fetch registry");
@@ -39,6 +42,21 @@ async function init() {
                 <p>Failed to load the MCP registry endpoints. Ensure the static file exists at <code>v0.1/servers</code>.</p>
             </div>
         `;
+	}
+}
+
+async function loadExampleConfig() {
+	try {
+		const response = await fetch("./mcp.example.json");
+		if (!response.ok) return;
+
+		const text = await response.text();
+		const codeEl = document.getElementById("example-config-code");
+		if (codeEl) {
+			codeEl.textContent = text.trim();
+		}
+	} catch (error) {
+		console.error("Error loading example config:", error);
 	}
 }
 

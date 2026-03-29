@@ -62,12 +62,31 @@
             <input type="text" id="search-input" placeholder="Search servers by name, description, or package..." autocomplete="off">
         </div>
 
+        <nav class="in-page-nav">
+            <a href="#server-grid" class="nav-link">Available servers</a>
+            <a href="#example-section" class="nav-link">mcp.json examples</a>
+        </nav>
+
         <main id="server-grid" class="grid-container">
             <div class="loading-state">
                 <div class="spinner"></div>
                 <p>Syncing Registry...</p>
             </div>
         </main>
+
+        <section id="example-section" class="example-section">
+            <div class="card example-card">
+                <div class="card-header">
+                    <h2 class="card-title">Example Configuration</h2>
+                </div>
+                <p class="card-desc">
+                    Here is an example <code>mcp.json</code> configuration. This format is especially useful for integration with <strong>VS Code Copilot Chat</strong> and <strong>Copilot CLI</strong>.
+                </p>
+                <div class="code-container">
+                    <pre><code id="example-config-code">Loading...</code></pre>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script src="assets/app.js"></script>
