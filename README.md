@@ -87,3 +87,16 @@ npm run update:packages
   }
 }
 ```
+
+## Future Roadmap (TODOs)
+
+### 1. Source / Build Pipeline
+Currently, all MCP servers are stored in a single `v0.1/servers` file. As this registry scales, managing a single JSON file will lead to merge conflicts and formatting issues.
+
+**Planned Architecture:**
+- Create a `src/servers/` dictionary where each server configuration is a standalone JSON file (e.g. `src/servers/figma.json`).
+- Write a Node.js build script (`npm run build`) that:
+  - Aggregates all individual JSON files into the `v0.1/servers` structure.
+  - Automatically calculates and injects the `metadata.count` field.
+  - Formats the final output.
+- This will separate the "source code" of the registry from the final "static artifact" served to clients.
