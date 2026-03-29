@@ -1,4 +1,24 @@
 let allServers = [];
+const gridElement = document.getElementById("server-grid");
+
+function getRepositoryInfo(name) {
+	if (name.startsWith("io.github.")) {
+		const slug = name.substring("io.github.".length);
+		return { url: `https://github.com/${slug}`, display: slug };
+	}
+
+	const parts = name.split("/");
+	const namespace = parts[0];
+
+	if (namespace.includes(".")) {
+		const domainParts = namespace.split(".");
+		domainParts.reverse();
+		const domain = domainParts.join(".");
+		return { url: `https://${domain}`, display: domain };
+	}
+
+	return { url: "#", display: name };
+}
 
 async function init() {
 	try {
@@ -8,19 +28,14 @@ async function init() {
 		const data = await response.json();
 		allServers = data.servers;
 
-		// Update UI Stats
 		document.getElementById("server-count").innerText =
 			data.metadata.count || allServers.length;
-
 		renderGrid(allServers);
 	} catch (error) {
 		console.error("Error loading registry:", error);
-		document.getElementById("server-grid").innerHTML = `
+		gridElement.innerHTML = `
             <div class="error-state">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <title>Error Icon</title>
-                    <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
+                <svg width="48" height="48"><use href="#icon-error"></use></svg>
                 <p>Failed to load the MCP registry endpoints. Ensure the static file exists at <code>v0.1/servers</code>.</p>
             </div>
         `;
@@ -28,11 +43,8 @@ async function init() {
 }
 
 function renderGrid(servers) {
-	const grid = document.getElementById("server-grid");
-	grid.innerHTML = "";
-
 	if (servers.length === 0) {
-		grid.innerHTML = `
+		gridElement.innerHTML = `
             <div class="empty-state">
                 <p>No servers matched your search criteria.</p>
             </div>
@@ -40,51 +52,89 @@ function renderGrid(servers) {
 		return;
 	}
 
-	servers.forEach((item, index) => {
-		const srv = item.server;
-		const card = document.createElement("div");
-		card.className = "card";
-		card.style.animationDelay = `${index * 0.05}s`;
+	// Build the DOM string once to prevent layout thrashing
+	const htmlString = servers
+		.map((item, index) => {
+			const srv = item.server;
+			const repoInfo = getRepositoryInfo(srv.name);
+			let capabilitiesHtml = "";
 
-		let capabilitiesHtml = "";
-
-		if (srv.packages && srv.packages.length > 0) {
-			const pkg = srv.packages[0];
-			capabilitiesHtml = `
+			if (srv.packages && srv.packages.length > 0) {
+				const pkg = srv.packages[0];
+				capabilitiesHtml = `
                 <div class="badge-row">
                     <span class="badge package-badge">📦 ${pkg.registryType}</span>
-                    <span class="code-snippet">npx ${pkg.identifier}</span>
+                    <button class="code-snippet" title="Click to copy">npm i -g ${pkg.identifier}</button>
                 </div>
             `;
-		} else if (srv.remotes && srv.remotes.length > 0) {
-			const rem = srv.remotes[0];
-			capabilitiesHtml = `
+			} else if (srv.remotes && srv.remotes.length > 0) {
+				const rem = srv.remotes[0];
+				capabilitiesHtml = `
                 <div class="badge-row">
                     <span class="badge remote-badge">🌐 Remote HTTP</span>
-                    <span class="code-snippet">${rem.url}</span>
+                    <button class="code-snippet" title="Click to copy">${rem.url}</button>
                 </div>
             `;
-		}
+			}
 
-		card.innerHTML = `
-            <div class="card-header">
-                <h2 class="card-title">${srv.name.split("/").pop() || srv.name}</h2>
-                <span class="version-badge">v${srv.version}</span>
-            </div>
-            <div class="card-namespace">${srv.name}</div>
-            <p class="card-desc">${srv.description}</p>
-            
-            <div class="card-footer">
-                ${capabilitiesHtml}
+			return `
+            <div class="card" style="animation-delay: ${index * 0.05}s">
+                <div class="card-header">
+                    <h2 class="card-title">${srv.name.split("/").pop() || srv.name}</h2>
+                    <span class="version-badge">v${srv.version}</span>
+                </div>
+                <a href="${repoInfo.url}" target="_blank" rel="noopener noreferrer" class="card-namespace">
+                    <svg width="14" height="14"><use href="#icon-external"></use></svg>
+                    ${repoInfo.display}
+                </a>
+                <p class="card-desc">${srv.description}</p>
+                <div class="card-footer">
+                    ${capabilitiesHtml}
+                </div>
             </div>
         `;
-		grid.appendChild(card);
-	});
+		})
+		.join("");
+
+	gridElement.innerHTML = htmlString;
 }
 
+// Global Event Delegation for copying snippets
+gridElement.addEventListener("click", async (e) => {
+	const snippet = e.target.closest(".code-snippet");
+	if (!snippet) return;
+
+	const text = snippet.innerText;
+	if (text === "Copied!") return;
+
+	try {
+		await navigator.clipboard.writeText(text);
+		snippet.innerText = "Copied!";
+		snippet.classList.add("copied");
+
+		setTimeout(() => {
+			snippet.innerText = text;
+			snippet.classList.remove("copied");
+		}, 1500);
+	} catch (err) {
+		console.error("Failed to copy:", err);
+	}
+});
+
+// Wire up the dynamic CSS hover effect
+gridElement.addEventListener("mousemove", (e) => {
+	for (const card of document.querySelectorAll(".card")) {
+		const rect = card.getBoundingClientRect(),
+			x = e.clientX - rect.left,
+			y = e.clientY - rect.top;
+
+		card.style.setProperty("--mouse-x", `${x}px`);
+		card.style.setProperty("--mouse-y", `${y}px`);
+	}
+});
+
 // Search logic
-const searchInput = document.getElementById("search-input");
-searchInput.addEventListener("input", (e) => {
+document.getElementById("search-input").addEventListener("input", (e) => {
 	const query = e.target.value.toLowerCase();
 	const filtered = allServers.filter((item) => {
 		const srv = item.server;
@@ -92,11 +142,8 @@ searchInput.addEventListener("input", (e) => {
 		const matchDesc = srv.description
 			? srv.description.toLowerCase().includes(query)
 			: false;
-
-		let matchPkg = false;
-		if (srv.packages?.[0]?.identifier) {
-			matchPkg = srv.packages[0].identifier.toLowerCase().includes(query);
-		}
+		const matchPkg =
+			srv.packages?.[0]?.identifier?.toLowerCase().includes(query) || false;
 
 		return matchName || matchDesc || matchPkg;
 	});

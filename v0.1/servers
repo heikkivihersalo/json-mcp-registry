@@ -20,7 +20,7 @@
     {
       "server": {
         "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-        "name": "io.github.chromedevtools/chrome-devtools-mcp",
+        "name": "io.github.ChromeDevTools/chrome-devtools-mcp",
         "description": "Chrome DevTools MCP server for interacting with Chrome via the DevTools Protocol.",
         "version": "0.20.3",
         "packages": [

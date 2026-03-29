@@ -43,7 +43,9 @@ function updatePackages() {
 					server.version = latestVersion;
 					hasUpdates = true;
 				} else {
-					console.log(`✅ ${server.name} (${packageName}) is up to date (${latestVersion})`);
+					console.log(
+						`✅ ${server.name} (${packageName}) is up to date (${latestVersion})`,
+					);
 				}
 			} catch (error) {
 				console.error(
@@ -57,8 +59,11 @@ function updatePackages() {
 	if (hasUpdates) {
 		// Update the count just in case someone changed it manually (also verified in tests)
 		currentRegistry.metadata.count = currentRegistry.servers.length;
-		
-		fs.writeFileSync(registryPath, `${JSON.stringify(currentRegistry, null, 2)}\n`);
+
+		fs.writeFileSync(
+			registryPath,
+			`${JSON.stringify(currentRegistry, null, 2)}\n`,
+		);
 		console.log("\n✨ Registry updated successfully!");
 	} else {
 		console.log("\n📦 All npm packages are up to date.");

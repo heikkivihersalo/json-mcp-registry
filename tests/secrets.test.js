@@ -121,8 +121,7 @@ describe("Registry Validation Security Rules", () => {
 					packageArguments: [
 						{
 							type: "positional",
-							value:
-								"--api-key=mcp_sk_1234567890abcdef1234567890abcdef",
+							value: "--api-key=mcp_sk_1234567890abcdef1234567890abcdef",
 						},
 						{
 							type: "positional",

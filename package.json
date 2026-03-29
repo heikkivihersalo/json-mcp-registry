@@ -27,9 +27,6 @@
 	"lint-staged": {
 		"*.{json,js}": [
 			"biome check --write"
-		],
-		"v0.1/servers": [
-			"biome check --write"
 		]
 	}
 }
