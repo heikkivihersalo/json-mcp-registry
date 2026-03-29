@@ -7,6 +7,8 @@
 		"test": "node --test",
 		"test:registry": "node --test tests/registry.test.js",
 		"test:secrets": "node --test tests/secrets.test.js",
+		"test:versions": "node --test tests/version-sync.test.js",
+		"update:packages": "node scripts/update-packages.js",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"check": "biome check --write ."
