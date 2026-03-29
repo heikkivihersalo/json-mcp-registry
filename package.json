@@ -1,6 +1,6 @@
 {
 	"name": "mcp-registry",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"description": "Internal MCP Server Registry",
 	"scripts": {
 		"dev": "npx http-server -p 8080 .",
